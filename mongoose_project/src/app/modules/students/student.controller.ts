@@ -3,8 +3,7 @@ import { StudentServices } from './student.service';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
-    const student = req.body;
-
+    const student = req.body.students;
     //   call service function to sent the res
     const result = await StudentServices.createStudentIntoDB(student);
 
@@ -19,6 +18,36 @@ const createStudent = async (req: Request, res: Response) => {
   }
 };
 
+const getAllStudent = async (req: Request, res: Response) => {
+  try {
+    const student = await StudentServices.getAllStudentFromDb();
+    // send response
+    res.status(200).json({
+      success: true,
+      message: 'Students retrieved successfully',
+      data: student,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getSingleStudent = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.stdId;
+    const result = await StudentServices.gerSingleStudentFromDb(id);
+    res.status(200).json({
+      success: true,
+      message: 'Get single Students from db successfully',
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const StudentController = {
   createStudent,
+  getAllStudent,
+  getSingleStudent,
 };
