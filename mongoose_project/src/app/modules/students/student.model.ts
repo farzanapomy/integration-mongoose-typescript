@@ -143,6 +143,7 @@ const studentSchema = new Schema<Student>({
     required: [true, 'Local guardian information is required'],
   },
   profileImg: { type: String },
+  isActive:{}
 });
 
 export const StudentModel = model<Student>('Student', studentSchema);
