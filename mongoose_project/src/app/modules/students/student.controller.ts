@@ -22,7 +22,8 @@ const createStudent = async (req: Request, res: Response) => {
     //   });
     // }
     const result = await StudentServices.createStudentIntoDB(zodParseData);
-
+    // console.log(result.password);
+    // return result;
     // send response
     res.status(200).json({
       success: true,
@@ -47,8 +48,12 @@ const getAllStudent = async (req: Request, res: Response) => {
       message: 'Students retrieved successfully',
       data: student,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong',
+      error: err,
+    });
   }
 };
 
@@ -61,8 +66,29 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'Get single Students from db successfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong',
+      error: err,
+    });
+  }
+};
+const deleteSingleStudent = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.stdId;
+    const result = await StudentServices.deleteStudentFromDb(id);
+    res.status(200).json({
+      success: true,
+      message: 'single Students deleted successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong',
+      error: err,
+    });
   }
 };
 
@@ -70,4 +96,5 @@ export const StudentController = {
   createStudent,
   getAllStudent,
   getSingleStudent,
+  deleteSingleStudent,
 };
