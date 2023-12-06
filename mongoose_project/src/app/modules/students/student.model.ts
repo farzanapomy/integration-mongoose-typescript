@@ -11,8 +11,7 @@ import {
 import validator from 'validator';
 import isEmail from 'validator/lib/isEmail';
 import config from '../../config';
-import { boolean } from 'joi';
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -177,7 +176,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
 
 // virtual
 studentSchema.virtual('FullName').get(function () {
-  return {`${this.name.firstName}  ${this.name.middleName} ${this.name.lastName}`}
+  return `${this.name.firstName}  ${this.name.middleName} ${this.name.lastName}`;
 });
 
 // middleware pre set hooks . will work on create() ,  save()

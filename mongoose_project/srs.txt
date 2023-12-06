@@ -1,0 +1,164 @@
+# 11.2
+
+Requirement:
+
+Name: PH University
+
+Functional Requirements Analysis: 
+
+1. **Authentication**
+    1. **Student**
+        1.  Students can log in and logout securely 
+        2. students can update their pass
+    2. **Faculty:**
+        1. **Faculty** can log in and logout securely 
+        2. **Faculty** can update their pass
+    3. Admin**:**
+        1. Admin can log in and logout securely 
+        2. Admin ****can update their pass
+2. **Profile Management:**
+    1. **Student** 
+        1. can manage their profile
+        2. students can update specific field can update 
+    2. **Faculty**
+        1. can manage their profile
+        2. Faculty can update specific field can update 
+    3. **Admin** 
+        1. can manage their profile
+        2. Admin can update specific field can update 
+3. **Academic process:**
+    1. **Students**
+        1. Students can enroll in offered courses 
+        2. students can view their class schedule
+        3. Can see their grace 
+        4. can view notice board and evens
+    2. **Faculty** 
+        1. can manage grade 
+        2. can access personal and academic info
+    3. **Admin** 
+        1. can manage multiple processes
+            1. Semester
+            2. course
+            3. Offered course
+            4. Section
+            5. Room
+            6. building
+4. User Management:
+    1. **Admin** 
+        1. can manage multiple accounts 
+        2. can block /blocked  
+        3. can change pass
+    
+    $$
+    
+    $$
+    
+                                           
+    
+                                                 **Data Model:**
+    
+    **User Model:**
+    
+    1. _id
+    2. userId(Generated)
+    3. role
+    4. status
+    5. password
+    6. needsPasswordChange
+    7. isDelete
+    8. Create Date
+    9. Update Date
+    
+    **Students** 
+    
+    1. _id
+    2. Email
+    3. name
+    4. DOB
+    5. phone
+    6. emergency no
+    7. presentaddress
+    8. department
+    9. permanent address
+    10. guardian 
+    11. localGuardian
+    12. profileImage
+    13. IsDelete
+    14. Create Date
+    15. Update Date
+
+**Faculty**
+
+1. _id
+2. user
+3. Email
+4. designation
+5. name
+6. DOB
+7. phone
+8. emergency no
+9. address
+10. academicFaculty
+11. academicDepartment
+12. permanent address
+13. profileImage
+14. IsDelete
+15. Create Date
+16. Update Date
+
+**Admin**
+
+1. _id
+2. user
+3. Email
+4. name
+5. DOB
+6. phone
+7. emergency no
+8. address
+9. ManagementDepartment
+10. permanent address
+11. profileImage
+12. IsDelete
+13. Create Date
+14. Update Date
+
+**API Endpoint:**
+
+User: 
+
+- Users/create-student (POST)
+- users-create-faculty (POST)
+- users/create-admin (POST)
+
+Strudent:
+
+- students (GET)
+- students/:id (GET)
+- students/:id (PATCH)
+- students/:id (DELETE)
+- students/my-profile ( )
+
+Facutly:
+
+- Facutly(GET)
+- Facutly/:id (GET)
+- Facutly/:id (PATCH)
+- Facutly/:id (DELETE)
+- Facutly/my-profile ( )
+
+admin:
+
+- admins(GET)
+- admins/:id (GET)
+- admins/:id (PATCH)
+- admins/:id (DELETE)
+- admins/my-profile ( )
+
+Auth:
+
+- auth/login
+- refresh-token
+- auth/change-password
+- auth-forget-password
+- aut/reset-password
