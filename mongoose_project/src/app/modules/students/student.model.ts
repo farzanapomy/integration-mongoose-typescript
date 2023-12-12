@@ -10,8 +10,7 @@ import {
 } from './student_interface';
 import validator from 'validator';
 import isEmail from 'validator/lib/isEmail';
-import config from '../../config';
-import bcrypt from 'bcrypt';
+
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -98,11 +97,13 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'ID is required'],
       unique: true,
     },
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-      maxLength: [20, 'Password can not exceed 20 characters'],
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User is required'],
+      unique: true,
+      ref: 'User',
     },
+   
     name: {
       type: userNameSchema,
       required: [true, 'Name is required'],
@@ -154,14 +155,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Local guardian information is required'],
     },
     profileImg: { type: String },
-    isActive: {
-      type: String,
-      enum: {
-        values: ['active', 'blocked'],
-        message: '{VALUE} is not a valid number',
-      },
-      default: 'active',
-    },
+
     isDeleted: {
       type: Boolean,
       default: false,
@@ -179,24 +173,7 @@ studentSchema.virtual('FullName').get(function () {
   return `${this.name.firstName}  ${this.name.middleName} ${this.name.lastName}`;
 });
 
-// middleware pre set hooks . will work on create() ,  save()
-studentSchema.pre('save', async function (next) {
-  // console.log(this, 'pre hook saved');
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this;
-  // hashing password
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.saltRounds_url),
-  );
-  next();
-});
-// middleware post hook
-studentSchema.post('save', function (doc, next) {
-  // console.log(this, 'post hook saved the data');
-  doc.password = '';
-  next();
-});
+
 
 // query middlewares
 studentSchema.pre('find', async function (next) {
@@ -233,4 +210,4 @@ studentSchema.statics.isUserExist = async function (id: string) {
 //   return existingUser;
 // };
 
-export const Student = model<TStudent, studentModel>('Student', studentSchema);
+export const Student = model<TStudent, StudentModel>('Student', studentSchema);

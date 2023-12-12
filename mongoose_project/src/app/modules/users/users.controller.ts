@@ -1,24 +1,17 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { UserServices } from './users.service';
 
-const createStudent = async (req: Request, res: Response) => {
+const createStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    // creating schema using ZOD
-
-    const student = req.body.students;
-    // const zodParseData = studentZodValidationSchema.parse(student);
-
-    // creating schema using joi
-    const { error, value } = studentValidationSchema.validate(student);
-    console.log(error, value);
-    //   call service function to sent the res
-    if (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Something went wrong',
-        error: error,
-      });
-    }
-    const result = await StudentServices.createStudentIntoDB(student);
+    const { password, students: studentData } = req.body;
+    const result = await UserServices.createStudentIntoDB(
+      password,
+      studentData,
+    );
     console.log(result);
     // return result;
     // send response
@@ -27,11 +20,11 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student created successfully',
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err) {
+    next(err);
   }
+};
+export const UserController = {
+  createStudent,
 };

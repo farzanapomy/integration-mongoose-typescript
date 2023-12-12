@@ -1,10 +1,14 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StudentServices } from './student.service';
 // import studentValidationSchema from './student.validation';
 // import studentZodValidationSchema from './student.zod.validation';
 // import studentValidationSchema from './student.validation';
 
-const getAllStudent = async (req: Request, res: Response) => {
+const getAllStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const student = await StudentServices.getAllStudentFromDb();
     // send response
@@ -14,16 +18,16 @@ const getAllStudent = async (req: Request, res: Response) => {
       data: student,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
-const getSingleStudent = async (req: Request, res: Response) => {
+const getSingleStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.stdId;
     const result = await StudentServices.gerSingleStudentFromDb(id);
@@ -32,15 +36,15 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'Get single Students from db successfully',
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
-const deleteSingleStudent = async (req: Request, res: Response) => {
+const deleteSingleStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.stdId;
     const result = await StudentServices.deleteStudentFromDb(id);
@@ -49,12 +53,8 @@ const deleteSingleStudent = async (req: Request, res: Response) => {
       message: 'single Students deleted successfully',
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
