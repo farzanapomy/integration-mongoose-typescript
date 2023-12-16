@@ -6,13 +6,14 @@ import cors from 'cors';
 import { StudentRoutes } from './app/modules/students/student.route';
 import { UsersRoutes } from './app/modules/users/users.route';
 import { globalErrorhandler } from './app/middleware/globalErrorHandler';
+import { notFound } from './app/middleware/notFound';
+import router from './app/routes';
 
 app.use(express.json());
 app.use(cors());
 
 // routes
-app.use('/api/v1/students', StudentRoutes);
-app.use('/api/v1/users', UsersRoutes);
+app.use('/api/v1', router);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({ message: 'Here is the real celprite' });
@@ -20,5 +21,8 @@ app.get('/', (req: Request, res: Response) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 app.use(globalErrorhandler);
+app.use(notFound);
+
+// not found route
 
 export default app;

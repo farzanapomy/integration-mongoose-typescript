@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StudentServices } from './student.service';
+import sendResponse from '../../utils/sendRespond';
+import httpStatus from 'http-status';
 // import studentValidationSchema from './student.validation';
 // import studentZodValidationSchema from './student.zod.validation';
 // import studentValidationSchema from './student.validation';
@@ -12,7 +14,14 @@ const getAllStudent = async (
   try {
     const student = await StudentServices.getAllStudentFromDb();
     // send response
-    res.status(200).json({
+    // res.status(200).json({
+    //   success: true,
+    //   message: 'Students retrieved successfully',
+    //   data: student,
+    // });
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
       message: 'Students retrieved successfully',
       data: student,
