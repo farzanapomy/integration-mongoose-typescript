@@ -11,6 +11,16 @@ router.post(
   AcademicSemesterController.createAcademicSemester,
 );
 
+router.get(
+  '/get-academic-semester',
+  AcademicSemesterController.getAllAcademicSemesters,
+);
+
+router.get(
+  '/:semesterId',
+  AcademicSemesterController.getSingleAcademicSemester,
+);
+
 // call controller function
 // router.post(
 //   '/create-student',

@@ -11,7 +11,6 @@ import {
 import validator from 'validator';
 import isEmail from 'validator/lib/isEmail';
 
-
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -103,7 +102,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       unique: true,
       ref: 'User',
     },
-   
+
     name: {
       type: userNameSchema,
       required: [true, 'Name is required'],
@@ -155,7 +154,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Local guardian information is required'],
     },
     profileImg: { type: String },
-
+    admissionSemester: { type: Schema.Types.ObjectId, ref: 'AcademicSemester' },
     isDeleted: {
       type: Boolean,
       default: false,
@@ -172,8 +171,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
 studentSchema.virtual('FullName').get(function () {
   return `${this.name.firstName}  ${this.name.middleName} ${this.name.lastName}`;
 });
-
-
 
 // query middlewares
 studentSchema.pre('find', async function (next) {
