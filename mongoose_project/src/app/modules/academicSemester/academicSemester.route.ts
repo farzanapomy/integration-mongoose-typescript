@@ -21,6 +21,14 @@ router.get(
   AcademicSemesterController.getSingleAcademicSemester,
 );
 
+router.patch(
+  '/:semesterId',
+  checkValidation(
+    academicSemesterValidation.updateAcademicSemesterValidationSchema,
+  ),
+  AcademicSemesterController.updateAcademicSemester,
+);
+
 // call controller function
 // router.post(
 //   '/create-student',
